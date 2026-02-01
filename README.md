@@ -21,15 +21,16 @@ Claude focuses on delivering visually engaging experiences while keeping perform
 
 - 🎨 Design Philosophy
 
-Theme: Dark / futuristic
+  ##
+  Theme: Dark / futuristic
 
-Accent: Purple & violet tones
+  Accent: Purple & violet tones
 
-Style: Minimal, elegant, creative
+  Style: Minimal, elegant, creative
 
-Focus: User experience + visual storytelling
-
-Designed to feel modern, expressive, and intentional.
+  Focus: User experience + visual storytelling
+  ##
+- Designed to feel modern, expressive, and intentional.
 
 🛠️ Tech Stack
 <p align="left">
