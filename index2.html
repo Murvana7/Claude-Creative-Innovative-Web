@@ -1,0 +1,790 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NEXUS - The Future of Web</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: #0a0a0a;
+            color: #fff;
+            overflow-x: hidden;
+        }
+        
+        .cursor {
+            width: 20px;
+            height: 20px;
+            border: 2px solid #00ffff;
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            z-index: 9999;
+            transition: transform 0.2s ease;
+            mix-blend-mode: difference;
+        }
+        
+        .cursor-follower {
+            width: 40px;
+            height: 40px;
+            border: 1px solid rgba(0, 255, 255, 0.5);
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            z-index: 9998;
+            transition: transform 0.3s ease;
+            mix-blend-mode: difference;
+        }
+        
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .particles {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+        
+        .particle {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: rgba(0, 255, 255, 0.5);
+            border-radius: 50%;
+            animation: float 20s infinite;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0) translateX(0); }
+            25% { transform: translateY(-100px) translateX(50px); }
+            50% { transform: translateY(-200px) translateX(-50px); }
+            75% { transform: translateY(-100px) translateX(100px); }
+        }
+        
+        .hero-content {
+            text-align: center;
+            z-index: 2;
+            padding: 20px;
+        }
+        
+        .hero h1 {
+            font-size: clamp(3rem, 10vw, 8rem);
+            font-weight: 900;
+            background: linear-gradient(45deg, #00ffff, #ff00ff, #ffff00, #00ffff);
+            background-size: 300% 300%;
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: gradientShift 5s ease infinite;
+            letter-spacing: -0.05em;
+            margin-bottom: 20px;
+        }
+        
+        @keyframes gradientShift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+        
+        .hero p {
+            font-size: clamp(1rem, 3vw, 1.5rem);
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 40px;
+            animation: fadeInUp 1s ease 0.5s both;
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .cta-group {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+            animation: fadeInUp 1s ease 0.7s both;
+        }
+        
+        .btn {
+            padding: 15px 40px;
+            font-size: 18px;
+            font-weight: 600;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(45deg, #00ffff, #00aaff);
+            color: #000;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 40px rgba(0, 255, 255, 0.5);
+        }
+        
+        .btn-secondary {
+            background: transparent;
+            border: 2px solid #00ffff;
+            color: #00ffff;
+        }
+        
+        .btn-secondary:hover {
+            background: rgba(0, 255, 255, 0.1);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 40px rgba(0, 255, 255, 0.3);
+        }
+        
+        .section {
+            padding: 100px 20px;
+            position: relative;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        .section-title {
+            font-size: clamp(2.5rem, 6vw, 4rem);
+            text-align: center;
+            margin-bottom: 80px;
+            background: linear-gradient(45deg, #fff, #00ffff);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 40px;
+        }
+        
+        .card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 40px;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, transparent, rgba(0, 255, 255, 0.1), transparent);
+            transform: translateX(-100%);
+            transition: transform 0.6s ease;
+        }
+        
+        .card:hover::before {
+            transform: translateX(100%);
+        }
+        
+        .card:hover {
+            transform: translateY(-20px) scale(1.02);
+            border-color: rgba(0, 255, 255, 0.5);
+            box-shadow: 0 20px 60px rgba(0, 255, 255, 0.2);
+        }
+        
+        .card-icon {
+            font-size: 60px;
+            margin-bottom: 20px;
+            display: inline-block;
+            animation: bounce 2s infinite;
+        }
+        
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        .card h3 {
+            font-size: 28px;
+            margin-bottom: 15px;
+            color: #00ffff;
+        }
+        
+        .card p {
+            color: rgba(255, 255, 255, 0.7);
+            line-height: 1.8;
+        }
+        
+        .interactive-section {
+            background: linear-gradient(180deg, #0a0a0a 0%, #1a0a2e 100%);
+            padding: 100px 20px;
+        }
+        
+        .canvas-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+        }
+        
+        #canvas {
+            width: 100%;
+            height: 500px;
+            border-radius: 20px;
+            background: rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(0, 255, 255, 0.3);
+            cursor: crosshair;
+        }
+        
+        .controls {
+            display: flex;
+            gap: 15px;
+            margin-top: 30px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        
+        .color-btn {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            border: 3px solid transparent;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .color-btn:hover {
+            transform: scale(1.2);
+            border-color: #fff;
+        }
+        
+        .color-btn.active {
+            border-color: #00ffff;
+            box-shadow: 0 0 20px currentColor;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-top: 60px;
+        }
+        
+        .stat-card {
+            text-align: center;
+            padding: 40px;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .stat-card:hover {
+            background: rgba(0, 255, 255, 0.05);
+            border-color: rgba(0, 255, 255, 0.5);
+        }
+        
+        .stat-number {
+            font-size: 60px;
+            font-weight: 900;
+            background: linear-gradient(45deg, #00ffff, #ff00ff);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+        }
+        
+        .stat-label {
+            font-size: 18px;
+            color: rgba(255, 255, 255, 0.7);
+        }
+        
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 60px;
+        }
+        
+        .gallery-item {
+            aspect-ratio: 1;
+            border-radius: 20px;
+            background: linear-gradient(45deg, #1a1a2e, #16213e);
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .gallery-item::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at center, rgba(0, 255, 255, 0.3), transparent);
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+        
+        .gallery-item:hover::before {
+            opacity: 1;
+        }
+        
+        .gallery-item:hover {
+            transform: scale(1.05) rotate(2deg);
+            box-shadow: 0 20px 60px rgba(0, 255, 255, 0.3);
+        }
+        
+        .gallery-content {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 80px;
+        }
+        
+        .floating-shapes {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            pointer-events: none;
+        }
+        
+        .shape {
+            position: absolute;
+            opacity: 0.1;
+            animation: floatShape 20s infinite ease-in-out;
+        }
+        
+        @keyframes floatShape {
+            0%, 100% {
+                transform: translate(0, 0) rotate(0deg);
+            }
+            33% {
+                transform: translate(100px, -100px) rotate(120deg);
+            }
+            66% {
+                transform: translate(-100px, 100px) rotate(240deg);
+            }
+        }
+        
+        .testimonial-slider {
+            max-width: 800px;
+            margin: 60px auto;
+            text-align: center;
+            padding: 60px 40px;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+        }
+        
+        .testimonial-text {
+            font-size: 24px;
+            line-height: 1.8;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 30px;
+            font-style: italic;
+        }
+        
+        .testimonial-author {
+            font-size: 18px;
+            color: #00ffff;
+            font-weight: 600;
+        }
+        
+        .slider-dots {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 30px;
+        }
+        
+        .dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .dot.active {
+            background: #00ffff;
+            transform: scale(1.3);
+        }
+        
+        footer {
+            text-align: center;
+            padding: 60px 20px;
+            background: rgba(0, 0, 0, 0.5);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .scroll-indicator {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.1);
+            z-index: 10000;
+        }
+        
+        .scroll-progress {
+            height: 100%;
+            background: linear-gradient(90deg, #00ffff, #ff00ff);
+            width: 0%;
+            transition: width 0.1s ease;
+        }
+        
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 3rem;
+            }
+            
+            .cta-group {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .cards {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="scroll-indicator">
+        <div class="scroll-progress" id="scrollProgress"></div>
+    </div>
+    
+    <div class="cursor" id="cursor"></div>
+    <div class="cursor-follower" id="cursorFollower"></div>
+    
+    <div class="hero">
+        <div class="particles" id="particles"></div>
+        <div class="floating-shapes">
+            <div class="shape" style="width: 200px; height: 200px; background: linear-gradient(45deg, rgba(0,255,255,0.1), rgba(255,0,255,0.1)); border-radius: 30%; left: 10%; top: 20%;"></div>
+            <div class="shape" style="width: 150px; height: 150px; background: linear-gradient(45deg, rgba(255,0,255,0.1), rgba(255,255,0,0.1)); border-radius: 50%; right: 15%; top: 40%;"></div>
+            <div class="shape" style="width: 100px; height: 100px; background: linear-gradient(45deg, rgba(255,255,0,0.1), rgba(0,255,255,0.1)); border-radius: 20%; left: 70%; bottom: 30%;"></div>
+        </div>
+        
+        <div class="hero-content">
+            <h1>NEXUS</h1>
+            <p>Where Innovation Meets Imagination</p>
+            <div class="cta-group">
+                <button class="btn btn-primary" onclick="scrollToSection('features')">Explore Features</button>
+                <button class="btn btn-secondary" onclick="scrollToSection('create')">Start Creating</button>
+            </div>
+        </div>
+    </div>
+    
+    <div class="section" id="features">
+        <div class="container">
+            <h2 class="section-title">Revolutionary Features</h2>
+            <div class="cards">
+                <div class="card">
+                    <div class="card-icon">🚀</div>
+                    <h3>Lightning Fast</h3>
+                    <p>Experience blazing fast performance with our cutting-edge optimization techniques and modern architecture.</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">🎨</div>
+                    <h3>Stunning Design</h3>
+                    <p>Immerse yourself in a beautifully crafted interface that pushes the boundaries of web design.</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">⚡</div>
+                    <h3>Real-time Interaction</h3>
+                    <p>Engage with dynamic, responsive elements that react instantly to your every move.</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">🔮</div>
+                    <h3>AI Powered</h3>
+                    <p>Leverage advanced artificial intelligence to create smarter, more intuitive experiences.</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">🌐</div>
+                    <h3>Global Reach</h3>
+                    <p>Connect with audiences worldwide through our seamlessly integrated platform.</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">🛡️</div>
+                    <h3>Secure & Private</h3>
+                    <p>Your data is protected with enterprise-grade security and privacy measures.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="interactive-section" id="create">
+        <div class="container">
+            <h2 class="section-title">Create Something Amazing</h2>
+            <div class="canvas-container">
+                <canvas id="canvas"></canvas>
+                <div class="controls">
+                    <button class="color-btn active" style="background: #00ffff;" onclick="selectColor('#00ffff', this)"></button>
+                    <button class="color-btn" style="background: #ff00ff;" onclick="selectColor('#ff00ff', this)"></button>
+                    <button class="color-btn" style="background: #ffff00;" onclick="selectColor('#ffff00', this)"></button>
+                    <button class="color-btn" style="background: #ff0080;" onclick="selectColor('#ff0080', this)"></button>
+                    <button class="color-btn" style="background: #00ff80;" onclick="selectColor('#00ff80', this)"></button>
+                    <button class="btn btn-secondary" onclick="clearCanvas()">Clear Canvas</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="section">
+        <div class="container">
+            <h2 class="section-title">The Numbers Speak</h2>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-number" data-target="50000">0</div>
+                    <div class="stat-label">Active Users</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" data-target="99">0</div>
+                    <div class="stat-label">Satisfaction Rate</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" data-target="150">0</div>
+                    <div class="stat-label">Countries Reached</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" data-target="24">0</div>
+                    <div class="stat-label">Support Available</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="section">
+        <div class="container">
+            <h2 class="section-title">Explore Possibilities</h2>
+            <div class="gallery">
+                <div class="gallery-item" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+                    <div class="gallery-content">🎯</div>
+                </div>
+                <div class="gallery-item" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
+                    <div class="gallery-content">💎</div>
+                </div>
+                <div class="gallery-item" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);">
+                    <div class="gallery-content">🌟</div>
+                </div>
+                <div class="gallery-item" style="background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);">
+                    <div class="gallery-content">🔥</div>
+                </div>
+                <div class="gallery-item" style="background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);">
+                    <div class="gallery-content">⚡</div>
+                </div>
+                <div class="gallery-item" style="background: linear-gradient(135deg, #30cfd0 0%, #330867 100%);">
+                    <div class="gallery-content">🎨</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="section">
+        <div class="container">
+            <h2 class="section-title">What People Are Saying</h2>
+            <div class="testimonial-slider">
+                <div class="testimonial-text" id="testimonialText">
+                    "This is absolutely mind-blowing! The attention to detail and smooth interactions make it a joy to use."
+                </div>
+                <div class="testimonial-author" id="testimonialAuthor">— Alex Chen, Creative Director</div>
+                <div class="slider-dots">
+                    <div class="dot active" onclick="changeTestimonial(0)"></div>
+                    <div class="dot" onclick="changeTestimonial(1)"></div>
+                    <div class="dot" onclick="changeTestimonial(2)"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <footer>
+        <h3 style="font-size: 32px; margin-bottom: 20px; color: #00ffff;">Ready to Begin?</h3>
+        <p style="color: rgba(255,255,255,0.7); margin-bottom: 30px; font-size: 18px;">Join thousands of innovators shaping the future</p>
+        <button class="btn btn-primary" style="font-size: 20px; padding: 18px 50px;">Get Started Now</button>
+        <p style="margin-top: 60px; color: rgba(255,255,255,0.5);">&copy; 2026 NEXUS. Redefining Digital Excellence.</p>
+    </footer>
+    
+    <script>
+        // Custom cursor
+        const cursor = document.getElementById('cursor');
+        const cursorFollower = document.getElementById('cursorFollower');
+        
+        document.addEventListener('mousemove', (e) => {
+            cursor.style.left = e.clientX + 'px';
+            cursor.style.top = e.clientY + 'px';
+            
+            setTimeout(() => {
+                cursorFollower.style.left = e.clientX + 'px';
+                cursorFollower.style.top = e.clientY + 'px';
+            }, 100);
+        });
+        
+        // Particles
+        const particlesContainer = document.getElementById('particles');
+        for (let i = 0; i < 50; i++) {
+            const particle = document.createElement('div');
+            particle.className = 'particle';
+            particle.style.left = Math.random() * 100 + '%';
+            particle.style.top = Math.random() * 100 + '%';
+            particle.style.animationDelay = Math.random() * 20 + 's';
+            particlesContainer.appendChild(particle);
+        }
+        
+        // Canvas drawing
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+        canvas.width = canvas.offsetWidth;
+        canvas.height = canvas.offsetHeight;
+        
+        let drawing = false;
+        let currentColor = '#00ffff';
+        
+        canvas.addEventListener('mousedown', () => drawing = true);
+        canvas.addEventListener('mouseup', () => drawing = false);
+        canvas.addEventListener('mouseleave', () => drawing = false);
+        
+        canvas.addEventListener('mousemove', (e) => {
+            if (!drawing) return;
+            
+            const rect = canvas.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            
+            ctx.fillStyle = currentColor;
+            ctx.shadowColor = currentColor;
+            ctx.shadowBlur = 20;
+            ctx.beginPath();
+            ctx.arc(x, y, 8, 0, Math.PI * 2);
+            ctx.fill();
+        });
+        
+        function selectColor(color, btn) {
+            currentColor = color;
+            document.querySelectorAll('.color-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+        }
+        
+        function clearCanvas() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+        }
+        
+        // Scroll progress
+        window.addEventListener('scroll', () => {
+            const scrollProgress = document.getElementById('scrollProgress');
+            const height = document.documentElement.scrollHeight - window.innerHeight;
+            const scrolled = (window.scrollY / height) * 100;
+            scrollProgress.style.width = scrolled + '%';
+        });
+        
+        // Smooth scroll
+        function scrollToSection(id) {
+            document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
+        }
+        
+        // Animated counters
+        const statNumbers = document.querySelectorAll('.stat-number');
+        let animated = false;
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting && !animated) {
+                    animated = true;
+                    statNumbers.forEach(stat => {
+                        const target = parseInt(stat.getAttribute('data-target'));
+                        let current = 0;
+                        const increment = target / 100;
+                        
+                        const updateCounter = () => {
+                            if (current < target) {
+                                current += increment;
+                                stat.textContent = Math.floor(current);
+                                setTimeout(updateCounter, 20);
+                            } else {
+                                stat.textContent = target;
+                            }
+                        };
+                        updateCounter();
+                    });
+                }
+            });
+        });
+        
+        statNumbers.forEach(stat => observer.observe(stat));
+        
+        // Testimonial slider
+        const testimonials = [
+            {
+                text: "This is absolutely mind-blowing! The attention to detail and smooth interactions make it a joy to use.",
+                author: "— Alex Chen, Creative Director"
+            },
+            {
+                text: "I've never seen anything like this. The design is revolutionary and the experience is unforgettable.",
+                author: "— Sarah Martinez, Product Designer"
+            },
+            {
+                text: "Simply stunning. This sets a new standard for what web experiences should be.",
+                author: "— Michael Brown, Tech Innovator"
+            }
+        ];
+        
+        let currentTestimonial = 0;
+        
+        function changeTestimonial(index) {
+            currentTestimonial = index;
+            document.getElementById('testimonialText').textContent = testimonials[index].text;
+            document.getElementById('testimonialAuthor').textContent = testimonials[index].author;
+            
+            document.querySelectorAll('.dot').forEach((dot, i) => {
+                dot.classList.toggle('active', i === index);
+            });
+        }
+        
+        setInterval(() => {
+            currentTestimonial = (currentTestimonial + 1) % testimonials.length;
+            changeTestimonial(currentTestimonial);
+        }, 5000);
+        
+        // Add hover effects to interactive elements
+        document.querySelectorAll('.btn, .card, .gallery-item').forEach(el => {
+            el.addEventListener('mouseenter', () => {
+                cursor.style.transform = 'scale(1.5)';
+                cursorFollower.style.transform = 'scale(1.5)';
+            });
+            el.addEventListener('mouseleave', () => {
+                cursor.style.transform = 'scale(1)';
+                cursorFollower.style.transform = 'scale(1)';
+            });
+        });
+    </script>
+</body>
+</html>
