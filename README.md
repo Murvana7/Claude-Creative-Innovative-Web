@@ -29,7 +29,8 @@ Claude focuses on delivering visually engaging experiences while keeping perform
   Style: Minimal, elegant, creative
 
   Focus: User experience + visual storytelling
-  
+
+ ## 
 - Designed to feel modern, expressive, and intentional.
 
 ## 🛠️ Tech Stack
