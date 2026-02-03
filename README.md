@@ -29,10 +29,10 @@ Claude focuses on delivering visually engaging experiences while keeping perform
   Style: Minimal, elegant, creative
 
   Focus: User experience + visual storytelling
-  ##
+  
 - Designed to feel modern, expressive, and intentional.
 
-### 🛠️ Tech Stack
+## 🛠️ Tech Stack
 <p align="left">
   <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-plain.svg" height="40"/> 
   <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-plain.svg" height="40"/> 
