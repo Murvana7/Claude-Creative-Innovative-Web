@@ -1,11 +1,11 @@
-🟣 Claude — Creative & Innovative Web
+# 🟣 Claude — Creative & Innovative Web
 
 - A creative and innovative web project designed with a modern mindset, blending clean UI, interactive design, and forward-thinking concepts.
 Claude focuses on delivering visually engaging experiences while keeping performance, clarity, and usability at the core.
 
 - Built for experimentation, creativity, and showcasing modern web development skills.
 
-✨ Features
+## ✨ Features
 
 - 🌙 Dark-mode focused design
 
@@ -32,7 +32,7 @@ Claude focuses on delivering visually engaging experiences while keeping perform
   ##
 - Designed to feel modern, expressive, and intentional.
 
-🛠️ Tech Stack
+### 🛠️ Tech Stack
 <p align="left">
   <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-plain.svg" height="40"/> 
   <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-plain.svg" height="40"/> 
